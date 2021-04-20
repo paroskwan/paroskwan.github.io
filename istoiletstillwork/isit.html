@@ -1,26 +1,62 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-body {
-  background: #555;
+body, html {
+  height: 100%;
+  margin: 0;
 }
 
-.content {
-  max-width: 500px;
+.bgimg {
+  background-image: url('./rocket.jpeg');
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  color: white;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 25px;
+}
+
+.topleft {
+  position: absolute;
+  top: 0;
+  left: 16px;
+}
+
+.bottomleft {
+  position: absolute;
+  bottom: 0;
+  left: 16px;
+}
+
+.middle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+hr {
   margin: auto;
-  background: white;
-  padding: 10px;
+  width: 40%;
 }
 </style>
-</head>
 <body>
 
-<div class="content">
-  <h1>Last Updated : 20th April</h1>
-  <h1>Male Toilet : No, please go to 6/f</h1>
-  
+<div class="bgimg">
+  <div class="topleft">
+    <p></p>
+  </div>
+  <div class="middle">
+    <h1>Male Toilet : Please go to 6/F</h1>
+    <hr>
+    <p>20/4</p>
+  </div>
+  <div class="bottomleft">
+    <p>image by nasa</p>
+  </div>
+</div>
 
 </body>
 </html>
