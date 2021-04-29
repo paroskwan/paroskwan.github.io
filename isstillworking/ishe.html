@@ -7,7 +7,7 @@ body, html {
 }
 
 .bgimg {
-  background-image: url('./flooding-min.jpeg');
+  background-image: url('./saint.jpg');
   height: 100%;
   background-position: center;
   background-size: cover;
@@ -44,8 +44,18 @@ hr {
 }
 </style>
 
-<title> Is the toilet working </title>
+<title> 聖人mode counter  </title>
 <link rel="shortcut icon" type="image/png" href="./favicon.png"/>
+<script type="text/javascript">
+  var seconds = 0;
+function incrementSeconds() {
+  var el = document.getElementById('y');
+    seconds += 1;
+    el.innerHTML = seconds + "次";
+}
+
+var cancel = setInterval(incrementSeconds, 3000);
+</script>
 <body>
 
 <div class="bgimg">
@@ -53,12 +63,12 @@ hr {
     <p></p>
   </div>
   <div class="middle">
-    <h1>It works, but apparently it is flooding.</h1>
+    <h1>已經聖人左</h1>
     <hr>
-    <p>28/4</p>
+    <h1 id="y">0次</h1>
   </div>
   <div class="bottomleft">
-    <p>image by bbc</p>
+    <p>image online</p>
   </div>
 </div>
 
