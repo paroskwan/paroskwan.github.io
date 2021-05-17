@@ -2,18 +2,38 @@ var app = new Vue({
     el: '#app',
     data () {
       return {
-        info: null
+        totalNumber: null,
+        numberList:null,
       }
     },
+  methods: {
+    addValue: function (_name) {
+      console.log(_name);
+      const _personIndex = this.numberList.findIndex(person => person.name === _name);
+      const _person = this.numberList.find(person => person.name === _name);
+      _person.count += 1;
+      //console.log(oldValue);
+      this.numberList[_personIndex] = _person;
+
+      const reducer = (accumulator, currentValue) => accumulator + currentValue;
+      this.totalNumber = this.numberList.map(person => person.count).reduce(reducer)
+
+
+
+    }
+  },
     mounted () {
       const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
-      fetch("https://a.nacapi.com/inchpplcount/neo")
+      fetch("https://a.nacapi.com/inchpplcount2/neo")
     .then(response => response.json())
-    .then((data) => {
-      const peopleMap = new Map(Object.entries(data.people));
-      console.log(peopleMap)
-      this.info= Array.from(peopleMap.values()).reduce(reducer)
+        .then((data) => {
+    
+          const peopleList = data.people;
+          console.log(peopleList);
+          this.totalNumber = peopleList.map(person => person.count).reduce(reducer)
+          console.log(this.totalNumber);
+      this.numberList = peopleList;
     });
 
       // fetch("https://a.nacapi.com/inchpplcount/",{mode: 'cors'})
