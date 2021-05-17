@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="UTF-8">
+    <title></title>
+    </head>
 <style>
 body, html {
   height: 100%;
@@ -44,18 +48,10 @@ hr {
 }
 </style>
 
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
 <title> 聖人mode counter  </title>
 <link rel="shortcut icon" type="image/png" href="./favicon.png"/>
-<script type="text/javascript">
-  var seconds = 0;
-function incrementSeconds() {
-  var el = document.getElementById('y');
-    seconds += 1;
-    el.innerHTML = seconds + "次";
-}
-
-var cancel = setInterval(incrementSeconds, 3000);
-</script>
 <body>
 
 <div class="bgimg">
@@ -63,13 +59,30 @@ var cancel = setInterval(incrementSeconds, 3000);
     <p></p>
   </div>
   <div class="middle">
-    <h1>已經聖人左</h1>
+    <h1>已經被人串左</h1>
     <hr>
-    <h1 id="y">0次</h1>
+    <h1 id="app">
+      {{ info }} 次
+    </h1>
+  </div>
+  <div id="app-7">
+    <ol>
+      <!--
+        Now we provide each todo-item with the todo object
+        it's representing, so that its content can be dynamic.
+        We also need to provide each component with a "key",
+        which will be explained later.
+      -->
+      <todo-item
+        v-for="item in groceryList"
+        v-bind:todo="item"
+        v-bind:key="item.id"
+      ></todo-item>
+    </ol>
   </div>
   <div class="bottomleft">
     <p>image online</p>
   </div>
 </div>
-
+<script src="index.js"></script>
 </body>
