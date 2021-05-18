@@ -8,15 +8,31 @@ var app = new Vue({
     },
   methods: {
     addValue: function (_name) {
-      console.log(_name);
+    
       const _personIndex = this.numberList.findIndex(person => person.name === _name);
       const _person = this.numberList.find(person => person.name === _name);
       _person.count += 1;
-      //console.log(oldValue);
+    
       this.numberList[_personIndex] = _person;
 
       const reducer = (accumulator, currentValue) => accumulator + currentValue;
       this.totalNumber = this.numberList.map(person => person.count).reduce(reducer)
+
+      fetch("https://a.nacapi.com/inchpplcount2/neo", {
+        method: 'post',
+        body: JSON.stringify({ 'people': this.numberList })
+      })
+      .then(response => response.json())
+          .then((data) => {
+           
+            const peopleList = data.neo.people
+            this.totalNumber = peopleList.map(person => person.count).reduce(reducer)
+            this.numberList = peopleList;
+      });
+
+
+
+
 
 
 
