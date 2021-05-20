@@ -84,7 +84,8 @@ hr {
         <button v-on:click="addValue(person.name)">{{ person.name  }} : {{ person.count }}</button>
         
       </div>
-      
+      <input v-model="inputName" placeholder="Add name">
+      <button :disabled="isDisable" v-on:click="addPerson(inputName)">Add Name</button>
 
     </div>
   </div>
