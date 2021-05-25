@@ -25,7 +25,7 @@ var app = new Vue({
       this.numberList[_personIndex] = _person;
       this.totalNumber = this.numberList.map(person => person.count).reduce(reducer,0)
 
-      fetch("https://a.nacapi.com/inchpplcount2/neo", {
+      fetch("https://a.nacapi.com/inchpplcount2/" + currentInched, {
         method: 'post',
         body: JSON.stringify({ 'people': this.numberList })
       })
@@ -39,7 +39,7 @@ var app = new Vue({
 
     }
     ,
-    addPerson: function (_inputName) {
+    addInchedPerson: function (_inputName) {
       this.isInchedDisable = true
       if (this.inchedList != null && _inputName != null && this.inchedList.find(person => person === _inputName) == null) {
 
@@ -54,6 +54,9 @@ var app = new Vue({
         })
           .then(response => response.json())
           .then((data) => {
+            const _inchedList  = Object.keys(data);
+        console.log(_inchedList);
+        this.inchedList = _inchedList
             this.currentInched = _inputName;
             const peopleList = data.people;
             console.log(peopleList);
@@ -63,6 +66,30 @@ var app = new Vue({
           });
       }
       this.isInchedDisable = false
+    },
+    addPerson: function (_inputName) {
+      this.isDisable = true
+      if (this.numberList != null && _inputName != null && this.numberList.find(person => person.name === _inputName) == null) {
+
+
+        this.numberList.push({ 'name': _inputName, 'count': 0 })
+        fetch("https://a.nacapi.com/inchpplcount2/" + + currentInched, {
+
+          method: 'post',
+          body: JSON.stringify({ 'people': this.numberList })
+
+        })
+          .then(response => response.json())
+          .then((data) => {
+            this.currentInched = _inputName;
+            const peopleList = data.people;
+            console.log(peopleList);
+            this.totalNumber = peopleList.map(person => person.count).reduce(reducer,0)
+            console.log(this.totalNumber);
+            this.numberList = peopleList;
+          });
+      }
+      this.isDisable = false
     }
     ,
     switchCurrentInched: function (_inchedName) {
