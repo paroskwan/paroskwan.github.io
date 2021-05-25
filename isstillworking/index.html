@@ -73,9 +73,18 @@ hr {
     <p></p>
   </div>
   <div class="middle">
-    <h1>已經被人串左</h1>
-    <hr>
+    
     <div id="app">
+      <div class="btn-group" role="group" v-for="person in inchedList">
+        <button v-on:click="switchCurrentInched(person)">{{ person  }} </button>
+        
+      </div>
+      <input v-model="inputInchedName" placeholder="Add count for new person!">
+      <button :disabled="isInchedDisable" v-on:click="addPerson(inputInchedName)">Add </button>
+      <br>
+      <br>
+      <h1>{{ currentInched }}已經被人串左</h1>
+    <hr>
       <h1>{{ totalNumber }} 次</h1>
 
 

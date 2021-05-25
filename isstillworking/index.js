@@ -7,8 +7,11 @@ var app = new Vue({
       inchedList: null,
       totalNumber: null,
       numberList: null,
+      inputInchedName:null,
+      isInchedDisable : false,
       inputName: null,
       isDisable: false,
+      wholeJson:null
 
     }
   },
@@ -20,7 +23,7 @@ var app = new Vue({
       _person.count += 1;
 
       this.numberList[_personIndex] = _person;
-      this.totalNumber = this.numberList.map(person => person.count).reduce(reducer)
+      this.totalNumber = this.numberList.map(person => person.count).reduce(reducer,0)
 
       fetch("https://a.nacapi.com/inchpplcount2/neo", {
         method: 'post',
@@ -30,41 +33,47 @@ var app = new Vue({
         .then((data) => {
 
           const peopleList = data.neo.people
-          this.totalNumber = peopleList.map(person => person.count).reduce(reducer)
+          this.totalNumber = peopleList.map(person => person.count).reduce(reducer,0)
           this.numberList = peopleList;
         });
 
     }
     ,
     addPerson: function (_inputName) {
-      this.isDisable = true
-      if (this.numberList != null && _inputName != null && this.numberList.find(person => person.name === _inputName) == null) {
-        this.numberList.push({ 'name': _inputName, 'count': 0 })
-        fetch("https://a.nacapi.com/inchpplcount2/neo", {
+      this.isInchedDisable = true
+      if (this.inchedList != null && _inputName != null && this.inchedList.find(person => person === _inputName) == null) {
+
+        this.wholeJson[_inputName]={'people':[]}
+
+
+
+
+        fetch("https://a.nacapi.com/inchpplcount2/", {
           method: 'post',
-          body: JSON.stringify({ 'people': this.numberList })
+          body: JSON.stringify(this.wholeJson)
         })
           .then(response => response.json())
           .then((data) => {
-
-            const peopleList = data.neo.people
-            this.totalNumber = peopleList.map(person => person.count).reduce(reducer)
+            this.currentInched = _inputName;
+            const peopleList = data.people;
+            console.log(peopleList);
+            this.totalNumber = peopleList.map(person => person.count).reduce(reducer,0)
+            console.log(this.totalNumber);
             this.numberList = peopleList;
-
-            this.inputName = null
           });
       }
-      this.isDisable = false
+      this.isInchedDisable = false
     }
     ,
     switchCurrentInched: function (_inchedName) {
+      
       fetch("https://a.nacapi.com/inchpplcount2/" + _inchedName)
         .then(response => response.json())
         .then((data) => {
-
+          this.currentInched = _inchedName;
           const peopleList = data.people;
           console.log(peopleList);
-          this.totalNumber = peopleList.map(person => person.count).reduce(reducer)
+          this.totalNumber = peopleList.map(person => person.count).reduce(reducer,0)
           console.log(this.totalNumber);
           this.numberList = peopleList;
         });
@@ -83,18 +92,33 @@ var app = new Vue({
         const _inchedList  = Object.keys(data);
         console.log(_inchedList);
         this.inchedList = _inchedList
-      });
+        console.log(this.inchedList)
+        this.wholeJson = data
+        console.log(data)
 
-    fetch("https://a.nacapi.com/inchpplcount2/neo")
-      .then(response => response.json())
-      .then((data) => {
+        var name = this.inchedList[0];
+        this.currentInched = name;
+        console.log(data[name].people)
 
-        const peopleList = data.people;
+        const peopleList = data[name].people;
         console.log(peopleList);
-        this.totalNumber = peopleList.map(person => person.count).reduce(reducer)
+        this.totalNumber = peopleList.map(person => person.count).reduce(reducer,0)
         console.log(this.totalNumber);
         this.numberList = peopleList;
-      });
+
+
+      })
+
+    // fetch("https://a.nacapi.com/inchpplcount2/neo")
+    //   .then(response => response.json())
+    //   .then((data) => {
+
+    //     const peopleList = data.people;
+    //     console.log(peopleList);
+    //     this.totalNumber = peopleList.map(person => person.count).reduce(reducer)
+    //     console.log(this.totalNumber);
+    //     this.numberList = peopleList;
+    //   });
 
     // fetch("https://a.nacapi.com/inchpplcount/",{mode: 'cors'})
     // .then(response => response.json())
